@@ -32,11 +32,17 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="js/leaflet-measure.js"></script>
-        <script src="data/Verbania_1.js"></script>
-        <script src="data/l746_f_res_2.js"></script>
-        <script src="data/l746_partic_3.js"></script>
-        <script src="data/Morfologie_Ins_vb_4.js"></script>
+        <script src="data/l746_partic_08_2022_1.js"></script>
+        <script src="data/l746_f_res_08_2022_2.js"></script>
+        <script src="data/Morfologie_Ins_vb_3.js"></script>
+        <script src="data/aree_intenti_4.js"></script>
+        <script src="data/Verbania_Confine_5.js"></script>
         <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
         })
@@ -65,7 +71,7 @@
         map.getPane('pane_GoogleSatelliteHybrid_0').style.zIndex = 400;
         var layer_GoogleSatelliteHybrid_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
             pane: 'pane_GoogleSatelliteHybrid_0',
-            opacity: 0.8,
+            opacity: 1.0,
             attribution: '',
             minZoom: 1,
             maxZoom: 28,
@@ -74,87 +80,35 @@
         });
         layer_GoogleSatelliteHybrid_0;
         map.addLayer(layer_GoogleSatelliteHybrid_0);
-        function pop_Verbania_1(feature, layer) {
+        function pop_l746_partic_08_2022_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['cod_rip'] !== null ? autolinker.link(feature.properties['cod_rip'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">foglio</th>\
+                        <td>' + (feature.properties['foglio'] !== null ? autolinker.link(feature.properties['foglio'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['cod_reg'] !== null ? autolinker.link(feature.properties['cod_reg'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['cod_prov'] !== null ? autolinker.link(feature.properties['cod_prov'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['cod_cm'] !== null ? autolinker.link(feature.properties['cod_cm'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['cod_uts'] !== null ? autolinker.link(feature.properties['cod_uts'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['pro_com'] !== null ? autolinker.link(feature.properties['pro_com'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['pro_com_t'] !== null ? autolinker.link(feature.properties['pro_com_t'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">comune</th>\
-                        <td>' + (feature.properties['comune'] !== null ? autolinker.link(feature.properties['comune'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">shape_area</th>\
-                        <td>' + (feature.properties['shape_area'] !== null ? autolinker.link(feature.properties['shape_area'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">numero</th>\
+                        <td>' + (feature.properties['numero'] !== null ? autolinker.link(feature.properties['numero'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_Verbania_1_0() {
+        function style_l746_partic_08_2022_1_0() {
             return {
-                pane: 'pane_Verbania_1',
-                opacity: 1,
-                color: 'rgba(243,35,35,1.0)',
-                dashArray: '10,5',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 0.5,
-                fillColor: 'rgba(229,182,54,0.0)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_Verbania_1');
-        map.getPane('pane_Verbania_1').style.zIndex = 401;
-        map.getPane('pane_Verbania_1').style['mix-blend-mode'] = 'normal';
-        var layer_Verbania_1 = new L.geoJson(json_Verbania_1, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_Verbania_1',
-            layerName: 'layer_Verbania_1',
-            pane: 'pane_Verbania_1',
-            onEachFeature: pop_Verbania_1,
-            style: style_Verbania_1_0,
-        });
-        bounds_group.addLayer(layer_Verbania_1);
-        map.addLayer(layer_Verbania_1);
-        function pop_l746_f_res_2(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">NUMERO</th>\
-                        <td>' + (feature.properties['NUMERO'] !== null ? autolinker.link(feature.properties['NUMERO'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">FOGLIO</th>\
-                        <td>' + (feature.properties['FOGLIO'] !== null ? autolinker.link(feature.properties['FOGLIO'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
-        }
-
-        function style_l746_f_res_2_0() {
-            return {
-                pane: 'pane_l746_f_res_2',
+                pane: 'pane_l746_partic_08_2022_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -162,99 +116,115 @@
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
-                fillOpacity: 0.5,
-                fillColor: 'rgba(236,78,20,1.0)',
+                fillOpacity: 1,
+                fillColor: 'rgba(125,139,143,0.0)',
                 interactive: true,
             }
         }
-        map.createPane('pane_l746_f_res_2');
-        map.getPane('pane_l746_f_res_2').style.zIndex = 402;
-        map.getPane('pane_l746_f_res_2').style['mix-blend-mode'] = 'normal';
-        var layer_l746_f_res_2 = new L.geoJson(json_l746_f_res_2, {
+        map.createPane('pane_l746_partic_08_2022_1');
+        map.getPane('pane_l746_partic_08_2022_1').style.zIndex = 401;
+        map.getPane('pane_l746_partic_08_2022_1').style['mix-blend-mode'] = 'normal';
+        var layer_l746_partic_08_2022_1 = new L.geoJson(json_l746_partic_08_2022_1, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_l746_f_res_2',
-            layerName: 'layer_l746_f_res_2',
-            pane: 'pane_l746_f_res_2',
-            onEachFeature: pop_l746_f_res_2,
-            style: style_l746_f_res_2_0,
+            dataVar: 'json_l746_partic_08_2022_1',
+            layerName: 'layer_l746_partic_08_2022_1',
+            pane: 'pane_l746_partic_08_2022_1',
+            onEachFeature: pop_l746_partic_08_2022_1,
+            style: style_l746_partic_08_2022_1_0,
         });
-        bounds_group.addLayer(layer_l746_f_res_2);
-        map.addLayer(layer_l746_f_res_2);
-        function pop_l746_partic_3(feature, layer) {
+        bounds_group.addLayer(layer_l746_partic_08_2022_1);
+        map.addLayer(layer_l746_partic_08_2022_1);
+        function pop_l746_f_res_08_2022_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">FOGLIO</th>\
-                        <td>' + (feature.properties['FOGLIO'] !== null ? autolinker.link(feature.properties['FOGLIO'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">numero</th>\
+                        <td>' + (feature.properties['numero'] !== null ? autolinker.link(feature.properties['numero'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">NUMERO</th>\
-                        <td>' + (feature.properties['NUMERO'] !== null ? autolinker.link(feature.properties['NUMERO'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">foglio</th>\
+                        <td>' + (feature.properties['foglio'] !== null ? autolinker.link(feature.properties['foglio'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_l746_partic_3_0() {
+        function style_l746_f_res_08_2022_2_0() {
             return {
-                pane: 'pane_l746_partic_3',
+                pane: 'pane_l746_f_res_08_2022_2',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(128,14,16,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
-                fillOpacity: 0.5,
-                fillColor: 'rgba(213,180,60,0.0)',
+                fillOpacity: 1,
+                fillColor: 'rgba(228,133,60,1.0)',
                 interactive: true,
             }
         }
-        map.createPane('pane_l746_partic_3');
-        map.getPane('pane_l746_partic_3').style.zIndex = 403;
-        map.getPane('pane_l746_partic_3').style['mix-blend-mode'] = 'normal';
-        var layer_l746_partic_3 = new L.geoJson(json_l746_partic_3, {
+        map.createPane('pane_l746_f_res_08_2022_2');
+        map.getPane('pane_l746_f_res_08_2022_2').style.zIndex = 402;
+        map.getPane('pane_l746_f_res_08_2022_2').style['mix-blend-mode'] = 'normal';
+        var layer_l746_f_res_08_2022_2 = new L.geoJson(json_l746_f_res_08_2022_2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_l746_partic_3',
-            layerName: 'layer_l746_partic_3',
-            pane: 'pane_l746_partic_3',
-            onEachFeature: pop_l746_partic_3,
-            style: style_l746_partic_3_0,
+            dataVar: 'json_l746_f_res_08_2022_2',
+            layerName: 'layer_l746_f_res_08_2022_2',
+            pane: 'pane_l746_f_res_08_2022_2',
+            onEachFeature: pop_l746_f_res_08_2022_2,
+            style: style_l746_f_res_08_2022_2_0,
         });
-        bounds_group.addLayer(layer_l746_partic_3);
-        map.addLayer(layer_l746_partic_3);
-        function pop_Morfologie_Ins_vb_4(feature, layer) {
+        bounds_group.addLayer(layer_l746_f_res_08_2022_2);
+        map.addLayer(layer_l746_f_res_08_2022_2);
+        function pop_Morfologie_Ins_vb_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">fid</th>\
-                        <td>' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">voce_tav</th>\
+                        <td>' + (feature.properties['voce_tav'] !== null ? autolinker.link(feature.properties['voce_tav'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">NOTE</th>\
-                        <td>' + (feature.properties['NOTE'] !== null ? autolinker.link(feature.properties['NOTE'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">categoria</th>\
+                        <td>' + (feature.properties['categoria'] !== null ? autolinker.link(feature.properties['categoria'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">VOCE_TAV</th>\
-                        <td>' + (feature.properties['VOCE_TAV'] !== null ? autolinker.link(feature.properties['VOCE_TAV'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">CATEGORIA</th>\
-                        <td>' + (feature.properties['CATEGORIA'] !== null ? autolinker.link(feature.properties['CATEGORIA'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ART__39___</th>\
-                        <td>' + (feature.properties['ART__39___'] !== null ? autolinker.link(feature.properties['ART__39___'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">art__39___</th>\
+                        <td>' + (feature.properties['art__39___'] !== null ? autolinker.link(feature.properties['art__39___'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_Morfologie_Ins_vb_4_0(feature) {
-            switch(String(feature.properties['VOCE_TAV'])) {
+        function style_Morfologie_Ins_vb_3_0(feature) {
+            switch(String(feature.properties['voce_tav'])) {
                 case 'm.i. 10':
                     return {
-                pane: 'pane_Morfologie_Ins_vb_4',
+                pane: 'pane_Morfologie_Ins_vb_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -263,13 +233,13 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 0.5,
-                fillColor: 'rgba(237,200,52,1.0)',
+                fillColor: 'rgba(230,222,114,1.0)',
                 interactive: true,
             }
                     break;
                 case 'm.i. 11':
                     return {
-                pane: 'pane_Morfologie_Ins_vb_4',
+                pane: 'pane_Morfologie_Ins_vb_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -278,13 +248,13 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 0.5,
-                fillColor: 'rgba(230,103,209,1.0)',
+                fillColor: 'rgba(19,226,23,1.0)',
                 interactive: true,
             }
                     break;
                 case 'm.i. 13':
                     return {
-                pane: 'pane_Morfologie_Ins_vb_4',
+                pane: 'pane_Morfologie_Ins_vb_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -293,13 +263,13 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 0.5,
-                fillColor: 'rgba(44,229,226,1.0)',
+                fillColor: 'rgba(119,206,26,1.0)',
                 interactive: true,
             }
                     break;
                 case 'm.i. 2':
                     return {
-                pane: 'pane_Morfologie_Ins_vb_4',
+                pane: 'pane_Morfologie_Ins_vb_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -308,13 +278,13 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 0.5,
-                fillColor: 'rgba(172,201,118,1.0)',
+                fillColor: 'rgba(162,36,204,1.0)',
                 interactive: true,
             }
                     break;
                 case 'm.i. 3':
                     return {
-                pane: 'pane_Morfologie_Ins_vb_4',
+                pane: 'pane_Morfologie_Ins_vb_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -323,13 +293,13 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 0.5,
-                fillColor: 'rgba(217,47,98,1.0)',
+                fillColor: 'rgba(53,112,220,1.0)',
                 interactive: true,
             }
                     break;
                 case 'm.i. 4':
                     return {
-                pane: 'pane_Morfologie_Ins_vb_4',
+                pane: 'pane_Morfologie_Ins_vb_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -338,13 +308,13 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 0.5,
-                fillColor: 'rgba(21,123,239,1.0)',
+                fillColor: 'rgba(215,113,128,1.0)',
                 interactive: true,
             }
                     break;
                 case 'm.i. 5':
                     return {
-                pane: 'pane_Morfologie_Ins_vb_4',
+                pane: 'pane_Morfologie_Ins_vb_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -353,13 +323,13 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 0.5,
-                fillColor: 'rgba(214,115,81,1.0)',
+                fillColor: 'rgba(231,30,171,1.0)',
                 interactive: true,
             }
                     break;
                 case 'm.i. 6':
                     return {
-                pane: 'pane_Morfologie_Ins_vb_4',
+                pane: 'pane_Morfologie_Ins_vb_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -367,14 +337,14 @@
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
-                fillOpacity: 0.5,
-                fillColor: 'rgba(68,205,52,1.0)',
+                fillOpacity: 1,
+                fillColor: 'rgba(215,161,128,1.0)',
                 interactive: true,
             }
                     break;
                 case 'm.i. 7':
                     return {
-                pane: 'pane_Morfologie_Ins_vb_4',
+                pane: 'pane_Morfologie_Ins_vb_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -383,13 +353,13 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 0.5,
-                fillColor: 'rgba(66,228,139,1.0)',
+                fillColor: 'rgba(106,80,212,1.0)',
                 interactive: true,
             }
                     break;
                 case 'm.i. 8':
                     return {
-                pane: 'pane_Morfologie_Ins_vb_4',
+                pane: 'pane_Morfologie_Ins_vb_3',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
@@ -398,28 +368,133 @@
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 0.5,
-                fillColor: 'rgba(35,17,233,1.0)',
+                fillColor: 'rgba(75,188,200,1.0)',
                 interactive: true,
             }
                     break;
             }
         }
-        map.createPane('pane_Morfologie_Ins_vb_4');
-        map.getPane('pane_Morfologie_Ins_vb_4').style.zIndex = 404;
-        map.getPane('pane_Morfologie_Ins_vb_4').style['mix-blend-mode'] = 'normal';
-        var layer_Morfologie_Ins_vb_4 = new L.geoJson(json_Morfologie_Ins_vb_4, {
+        map.createPane('pane_Morfologie_Ins_vb_3');
+        map.getPane('pane_Morfologie_Ins_vb_3').style.zIndex = 403;
+        map.getPane('pane_Morfologie_Ins_vb_3').style['mix-blend-mode'] = 'normal';
+        var layer_Morfologie_Ins_vb_3 = new L.geoJson(json_Morfologie_Ins_vb_3, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_Morfologie_Ins_vb_4',
-            layerName: 'layer_Morfologie_Ins_vb_4',
-            pane: 'pane_Morfologie_Ins_vb_4',
-            onEachFeature: pop_Morfologie_Ins_vb_4,
-            style: style_Morfologie_Ins_vb_4_0,
+            dataVar: 'json_Morfologie_Ins_vb_3',
+            layerName: 'layer_Morfologie_Ins_vb_3',
+            pane: 'pane_Morfologie_Ins_vb_3',
+            onEachFeature: pop_Morfologie_Ins_vb_3,
+            style: style_Morfologie_Ins_vb_3_0,
         });
-        bounds_group.addLayer(layer_Morfologie_Ins_vb_4);
-        map.addLayer(layer_Morfologie_Ins_vb_4);
+        bounds_group.addLayer(layer_Morfologie_Ins_vb_3);
+        map.addLayer(layer_Morfologie_Ins_vb_3);
+        function pop_aree_intenti_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">foglio</th>\
+                        <td>' + (feature.properties['foglio'] !== null ? autolinker.link(feature.properties['foglio'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">numero</th>\
+                        <td>' + (feature.properties['numero'] !== null ? autolinker.link(feature.properties['numero'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">domanda</th>\
+                        <td>' + (feature.properties['domanda'] !== null ? autolinker.link(feature.properties['domanda'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">acr</th>\
+                        <td>' + (feature.properties['acr'] !== null ? autolinker.link(feature.properties['acr'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_aree_intenti_4_0() {
+            return {
+                pane: 'pane_aree_intenti_4',
+                opacity: 1,
+                color: 'rgba(128,14,16,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(228,39,219,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_aree_intenti_4');
+        map.getPane('pane_aree_intenti_4').style.zIndex = 404;
+        map.getPane('pane_aree_intenti_4').style['mix-blend-mode'] = 'normal';
+        var layer_aree_intenti_4 = new L.geoJson(json_aree_intenti_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_aree_intenti_4',
+            layerName: 'layer_aree_intenti_4',
+            pane: 'pane_aree_intenti_4',
+            onEachFeature: pop_aree_intenti_4,
+            style: style_aree_intenti_4_0,
+        });
+        bounds_group.addLayer(layer_aree_intenti_4);
+        map.addLayer(layer_aree_intenti_4);
+        function pop_Verbania_Confine_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+        }
+
+        function style_Verbania_Confine_5_0() {
+            return {
+                pane: 'pane_Verbania_Confine_5',
+                opacity: 1,
+                color: 'rgba(228,26,28,1.0)',
+                dashArray: '10,5',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Verbania_Confine_5');
+        map.getPane('pane_Verbania_Confine_5').style.zIndex = 405;
+        map.getPane('pane_Verbania_Confine_5').style['mix-blend-mode'] = 'normal';
+        var layer_Verbania_Confine_5 = new L.geoJson(json_Verbania_Confine_5, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Verbania_Confine_5',
+            layerName: 'layer_Verbania_Confine_5',
+            pane: 'pane_Verbania_Confine_5',
+            onEachFeature: pop_Verbania_Confine_5,
+            style: style_Verbania_Confine_5_0,
+        });
+        bounds_group.addLayer(layer_Verbania_Confine_5);
+        map.addLayer(layer_Verbania_Confine_5);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'Morfologie_Ins_vb<br /><table><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_4_mi100.png" /></td><td>m.i. 10</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_4_mi111.png" /></td><td>m.i. 11</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_4_mi132.png" /></td><td>m.i. 13</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_4_mi23.png" /></td><td>m.i. 2</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_4_mi34.png" /></td><td>m.i. 3</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_4_mi45.png" /></td><td>m.i. 4</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_4_mi56.png" /></td><td>m.i. 5</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_4_mi67.png" /></td><td>m.i. 6</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_4_mi78.png" /></td><td>m.i. 7</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_4_mi89.png" /></td><td>m.i. 8</td></tr></table>': layer_Morfologie_Ins_vb_4,'<img src="legend/l746_partic_3.png" /> l746_partic': layer_l746_partic_3,'<img src="legend/l746_f_res_2.png" /> l746_f_res': layer_l746_f_res_2,'<img src="legend/Verbania_1.png" /> Verbania': layer_Verbania_1,"Google Satellite Hybrid": layer_GoogleSatelliteHybrid_0,}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/Verbania_Confine_5.png" /> Verbania_Confine': layer_Verbania_Confine_5,'<img src="legend/aree_intenti_4.png" /> aree_intenti': layer_aree_intenti_4,'Morfologie_Ins_vb<br /><table><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi100.png" /></td><td>m.i. 10</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi111.png" /></td><td>m.i. 11</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi132.png" /></td><td>m.i. 13</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi23.png" /></td><td>m.i. 2</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi34.png" /></td><td>m.i. 3</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi45.png" /></td><td>m.i. 4</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi56.png" /></td><td>m.i. 5</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi67.png" /></td><td>m.i. 6</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi78.png" /></td><td>m.i. 7</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi89.png" /></td><td>m.i. 8</td></tr></table>': layer_Morfologie_Ins_vb_3,'<img src="legend/l746_f_res_08_2022_2.png" /> l746_f_res_08_2022': layer_l746_f_res_08_2022_2,'<img src="legend/l746_partic_08_2022_1.png" /> l746_partic_08_2022': layer_l746_partic_08_2022_1,"Google Satellite Hybrid": layer_GoogleSatelliteHybrid_0,}).addTo(map);
         setBounds();
         </script>
     </body>
