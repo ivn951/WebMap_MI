@@ -13,10 +13,7 @@ Il dato, areale, classifica il territorio regionale in 14 tipologie di morfologi
 - villaggi di montagna; aree rurali di montagna o collina con edificazione rada e dispersa; 
 - aree rurali di pianura
 
-### Risorse Online 
+### Risorse Online Morfologie Insediative
 
 - [Sciamlab](https://sciamlab.com/opendatahub/dataset/r_piemon_www-geoportale-piemonte-it-r_piemon-c2274868-163d-4a16-a96f-87ea49718314)
-
- **Morfologie_Insediative** : 
- [Shape_File] (https://sciamlab.com/opendatahub/dataset/r_piemon_www-geoportale-piemonte-it-r_piemon-c2274868-163d-4a16-a96f-87ea49718314#:~:text=File%20SHP)
 
