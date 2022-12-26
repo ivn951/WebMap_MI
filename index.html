@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
         <style>
         html, body, #map {
             width: 100%;
@@ -498,7 +499,39 @@
         var baseMaps = {};
         L.control.layers(baseMaps,{'<img src="legend/Verbania_Confine_5.png" /> Verbania_Confine': layer_Verbania_Confine_5,'<img src="legend/aree_intenti_4.png" /> Aree_Intenti_ACR': layer_aree_intenti_4,'Morfologie_Ins_vb<br /><table><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi100.png" /></td><td>m.i. 10</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi111.png" /></td><td>m.i. 11</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi132.png" /></td><td>m.i. 13</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi23.png" /></td><td>m.i. 2</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi34.png" /></td><td>m.i. 3</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi45.png" /></td><td>m.i. 4</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi56.png" /></td><td>m.i. 5</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi67.png" /></td><td>m.i. 6</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi78.png" /></td><td>m.i. 7</td></tr><tr><td style="text-align: center;"><img src="legend/Morfologie_Ins_vb_3_mi89.png" /></td><td>m.i. 8</td></tr></table>': layer_Morfologie_Ins_vb_3,'<img src="legend/l746_f_res_08_2022_2.png" /> Fabbricati_08_2022': layer_l746_f_res_08_2022_2,'<img src="legend/l746_partic_08_2022_1.png" /> Particelle_08_2022': layer_l746_partic_08_2022_1,"Google Satellite Hybrid": layer_GoogleSatelliteHybrid_0,}).addTo(map);
         setBounds();
+
+
+        // CRS Mouse Position
         L.control.mousePosition().addTo(map);
+
+        // Metric Scale - bottomleft
+        L.control.scale({
+          metric: true,
+          imperial: false,
+          position: 'bottomleft'
+        }).addTo(map);
+
+
+        // Add Logo Verbania Bottomright
+        L.LogoControl = L.Control.extend({
+        options: {
+        position: 'bottomright'
+        //control position - allowed: 'topleft', 'topright', 'bottomleft', 'bottomright'
+        },
+
+        onAdd: function (map) {
+        var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control logo-control');
+        var button = L.DomUtil.create('a', '', container);
+            button.innerHTML = '<img width="100%" class="logo-control-img" src="https://www.comune.verbania.it/var/opencityverbania/storage/images/1298-13-ita-IT/OpenCity_header_logo.png">';
+        L.DomEvent.disableClickPropagation(button);
+        container.title = "Ufficio Urbanistica-SIT";
+
+        return container;
+        },
+        });
+
+        new L.LogoControl().addTo(map)
+        
         </script>
     </body>
 </html>
